@@ -14,7 +14,7 @@ To add
 + Optimize
 + UI or integration to After Effects
 
-# Usage (IGNORE)
+# Usage 
 
 python content_aware_scale.py input_video.mp4 output_scaled_video.mp4 --scale_x 0.5 --scale_y 0.5
 
