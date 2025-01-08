@@ -1,3 +1,14 @@
+Changes in this fork:
+- Added progress bar via tqdm
+- Changed working threads from 32 to as many CPU threads as the user's PC has.
+- Cleaned some text so it works in a cleaner way.
+
+To do:
++ Add audio and possibly worble it via FFMPEG.
++ Check viability of GPU processing via OpenCL
+
+Original Description:
+--------------------------------------------------------------------------------------------------
 # Content Aware Scale
 A alternative to using a photoshop script to do content aware scale using python seam carving.
 
@@ -17,6 +28,5 @@ To add
 # Usage 
 
 python content_aware_scale.py input_video.mp4 output_scaled_video.mp4 --scale_x 0.5 --scale_y 0.5
+--------------------------------------------------------------------------------------------------
 
-
- 
