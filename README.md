@@ -1,4 +1,5 @@
 A fork of X8J's Content-Aware-Scale python script i've made for me and whoever needs it.
+https://github.com/X8J/Content-Aware-Scale
 
 Changes in this fork:
 - Added progress bar via tqdm
