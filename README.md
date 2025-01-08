@@ -1,3 +1,5 @@
+A fork of X8J's Content-Aware-Scale python script i've made for me and whoever needs it.
+
 Changes in this fork:
 - Added progress bar via tqdm
 - Changed working threads from 32 to as many CPU threads as the user's PC has.
