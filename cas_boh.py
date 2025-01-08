@@ -1,3 +1,7 @@
+"""
+Changes from the original marked with #####
+"""
+
 import cv2
 import numpy as np
 import os
@@ -5,11 +9,11 @@ from seam_carving import resize
 import time
 from multiprocessing import Pool, cpu_count
 import argparse
+from tqdm import tqdm
 
 def seam_carve(image, scale_x, scale_y):
     new_width = int(image.shape[1] * scale_x)
     new_height = int(image.shape[0] * scale_y)
-    print(f"Resizing image to {new_width}x{new_height} ({scale_x*100:.1f}% width, {scale_y*100:.1f}% height)")
 
     carved_image = resize(image, (new_height, new_width))
     if carved_image is None or carved_image.size == 0:
@@ -44,13 +48,19 @@ def process_video(input_path, output_path, scale_x=1.0, scale_y=1.0):
 
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     carved_frame = seam_carve(frame_rgb, scale_x, scale_y)
+    wid = int(frame_rgb.shape[1])#####
+    hei = int(frame_rgb.shape[0])#####
+    new_width = round(wid * scale_x)#####
+    new_height = round(hei * scale_y)#####
+    print(f"\nOriginal frame size {wid}x{hei} - Total frames: {total_frames}")#####
+    print(f"Resizing image to {new_width}x{new_height} ({scale_x*100:.1f}% width, {scale_y*100:.1f}% height)")#####
 
     if carved_frame is None:
         print("Warning: skipping video processing due to an error with the first frame.")
         return
 
     new_height, new_width, _ = carved_frame.shape
-    print(f"Processed frame dimensions: {new_width}x{new_height}")
+    #print(f"Processed frame dimensions: {new_width}x{new_height}")
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     if not os.path.isabs(output_path):
@@ -59,7 +69,10 @@ def process_video(input_path, output_path, scale_x=1.0, scale_y=1.0):
     out = cv2.VideoWriter(output_path, fourcc, fps, (new_width, new_height))
     cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
 
-    batch_size = 32
+    batch_size = cpu_count()#####from 32 to cpu_count()
+    print(f"Using {batch_size} CPU Threads.")#####    
+    pbar = tqdm(total=total_frames)#####
+    
     frame_buffer = []
     total_processed_frames = 0
 
@@ -85,12 +98,13 @@ def process_video(input_path, output_path, scale_x=1.0, scale_y=1.0):
                     out.write(processed_frame)
                     total_processed_frames += 1
             frame_buffer = []
+        pbar.update(1)#####
 
     pool.close()
     pool.join()
-
     cap.release()
     out.release()
+    pbar.close()#####
 
     end_time = time.time()
     total_time = end_time - start_time
