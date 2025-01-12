@@ -24,7 +24,7 @@ Before & After
 This script allows content aware scale to be applied frame by frame over a video, without a need for photoshop.
 
 To add
-+ Loading bar
++ Loading bar (added in this fork)
 + Optimize
 + UI or integration to After Effects
 
