@@ -15,7 +15,7 @@ def seam_carve(image, scale_x, scale_y):
     new_width = int(image.shape[1] * scale_x)
     new_height = int(image.shape[0] * scale_y)
 
-    carved_image = resize(image, (new_height, new_width))
+    carved_image = resize(image, (new_width, new_height))
     if carved_image is None or carved_image.size == 0:
         print("Error: the carved image is empty or None.")
     
@@ -68,8 +68,8 @@ def process_video(input_path, output_path, scale_x=1.0, scale_y=1.0):
 
     out = cv2.VideoWriter(output_path, fourcc, fps, (new_width, new_height))
     cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
-
-    batch_size = cpu_count()#####from 32 to cpu_count()
+    
+    batch_size = round(cpu_count()/2)#####from 32 to cpu_count()
     print(f"Using {batch_size} CPU Threads.")#####    
     pbar = tqdm(total=total_frames)#####
     
@@ -118,7 +118,7 @@ def main():
     parser.add_argument('output_video', type=str, help='Path to save the scaled output video file')
     parser.add_argument('--scale_x', type=float, default=1.0, help='Scaling factor for width (default: 1.0)')
     parser.add_argument('--scale_y', type=float, default=1.0, help='Scaling factor for height (default: 1.0)')
-
+    
     args = parser.parse_args()
     input_video = args.input_video
     output_video = args.output_video
